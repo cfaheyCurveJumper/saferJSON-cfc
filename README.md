@@ -6,7 +6,7 @@ As any ColdFusion dev can tell you, working with JSON in ColdFusion is like feed
 
 The problem is exemplified by the fact that ColdFusion's isJSON() function doesn't protect the deserializeJSON() function from erroring out.
 
-This code should be--but is not--bullet-proof:
+This code should be bullet-proof, but it isn't:
 
 	<!--- if this is a valid JSON string --->
 	<cfif isJSON( your_string )>
