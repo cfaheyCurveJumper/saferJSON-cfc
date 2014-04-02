@@ -58,7 +58,7 @@ Returns a boolean.
 
 _**Solution 2 STRICT: isValid( str, true )**_
 
-Use the "strict" implementation to test whether or not ColdFusion will be able to deserialize it. A JSON could pass normal validation, but still cause problems during deserialization. Use the strict options like this:
+Use the "strict" implementation to test whether or not ColdFusion will be able to deserialize it. A JSON string could pass normal validation, but still cause problems during deserialization. Use the strict option like this:
 
 	<!--- initiate our cfc --->
 	<cfobject name="json" component="safeJSON">
