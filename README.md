@@ -28,9 +28,9 @@ Furthermore, the isJSON() method should only return true for strings that can ac
 
 For these reasons, I've created a ColdFusion CFC (safeJSON.cfc) which has two methods--one for better JSON validation, and one for more graceful deserialization.
 
-*Solution 1: parse( str )*
+_**Solution 1: parse( str )** ( replaces deserializeJSON() )_
 
-You can use the parse() method to gracefully deserialize your JSON string, like so:
+Use the parse() method to gracefully deserialize your JSON string, like so:
 
 	<!--- initiate our cfc --->
 	<cfobject name="json" component="safeJSON">
@@ -38,13 +38,13 @@ You can use the parse() method to gracefully deserialize your JSON string, like 
 	<!--- deserialize the JSON string (whether it's valid or not) --->
 	<cfset your_new_object = json.parse( your_string )>
 
-If the JSON string cannot be deserialized, the method returns the same string it was given.
+If deserialization fails, the method returns the same string it was given.
 
-*Solution 2: isValid( str )*
+_**Solution 2: isValid( str )** ( replaces isJSON() )_
 
-If you still need to test the validity of a JSON string, you can use the isValid() method. 
+To test the validity of a JSON string, use the isValid() method. This is much more accurate than isJSON().
 
-Note: This method tests against the two structures defined as valid JSON at json.org (http://www.json.org). It is stricter than isJSON(), so things like integers will no longer pass as JSON.
+Note: This method tests against the two structures defined as valid JSON at json.org (http://www.json.org). It is stricter than isJSON(), so things like integers will no longer be considered valid JSON.
 
 Use it like this:
 
@@ -53,10 +53,12 @@ Use it like this:
 	
 	<!--- test our string --->
 	<cfset is_this_JSON = json.isValid( your_string )>
+	
+Returns a boolean.
 
-*Solution 2 STRICT: isValid( str, true )*
+_**Solution 2 STRICT: isValid( str, true )**_
 
-If you really want to test whether or not ColdFusion will be able to deserialize it, you can also call it like this:
+Use the "strict" implementation to test whether or not ColdFusion will be able to deserialize it. A JSON could pass normal validation, but still cause problems during deserialization. Use the strict options like this:
 
 	<!--- initiate our cfc --->
 	<cfobject name="json" component="safeJSON">
@@ -64,7 +66,7 @@ If you really want to test whether or not ColdFusion will be able to deserialize
 	<!--- test our string using "strict" mode --->
 	<cfset is_this_JSON = json.isValid( your_string, true )>
 
-Adding the boolean "true" as the second parameter tells the isValid() method to actually practice deserializing the string. Upside: totally accurate as to whether or not the string is safe for deserialization. Downside: Extra overhead and redundancy. You should rarely need the strict option.
+Adding the boolean "true" as the second parameter tells the isValid() method to actually practice deserializing the string. Upside: accurate as to whether or not the string is safe for deserialization by ColdFusion. Downside: Extra overhead and redundancy. You should rarely need the strict option.
 
 In any event, I hope this helps some of you as much as it's helped me.
 
